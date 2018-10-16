@@ -1,28 +1,24 @@
-FROM fedora
+FROM frolvlad/alpine-oraclejdk8:slim
 LABEL Description="Tomcat image to test tomcat-in-the-cloud. standalone tomcat version"
 VOLUME /tmp
 
 USER root
-RUN yum -y install unzip
-RUN yum install -y bind-utils
 
-ARG war
-RUN echo $war
-ADD target/dependency/tomcat.zip apache-tomcat.zip
-RUN unzip apache-tomcat.zip
-RUN rm apache-tomcat.zip
-RUN mv apache-tomcat* apache-tomcat
-ADD $war/ /apache-tomcat/webapps
+ADD tomcat/output/build /apache-tomcat
 ADD server.xml /apache-tomcat/conf
 ADD openjson-1.0.10.jar /apache-tomcat/bin
 ADD catalina.sh /apache-tomcat/bin
+ADD web.xml /apache-tomcat/conf
 
 RUN chmod 777 /apache-tomcat/logs
 RUN chmod 777 /apache-tomcat/webapps
+RUN mkdir /apache-tomcat/work
 RUN chmod 777 /apache-tomcat/work
 RUN chmod 777 /apache-tomcat/temp
 
-RUN yum -y install java-1.8.0-openjdk
+ARG war
+RUN echo $war
+ADD $war/ /apache-tomcat/webapps
 
 WORKDIR /apache-tomcat
 

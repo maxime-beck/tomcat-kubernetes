@@ -1,0 +1,22 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    openshift.io/host.generated: 'true'
+    haproxy.router.openshift.io/balance: roundrobin
+    haproxy.router.openshift.io/disable_cookies: 'true'
+  labels:
+    run: tomcat-in-the-cloud
+  name: tomcat-in-the-cloud
+  namespace: tomcat-in-the-cloud
+  resourceVersion: '2356'
+  selfLink: >-
+    /apis/route.openshift.io/v1/namespaces/tomcat-in-the-cloud/routes/tomcat-in-the-cloud
+  uid: 07e590df-fe2e-11e8-8e29-525400e59a64
+spec:
+  host: tomcat-in-the-cloud-tomcat-in-the-cloud.192.168.42.65.nip.io
+  to:
+    kind: Service
+    name: tomcat-in-the-cloud
+    weight: 100
+  wildcardPolicy: None
